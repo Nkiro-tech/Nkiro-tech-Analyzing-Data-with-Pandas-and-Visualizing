@@ -1,0 +1,41 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris
+
+try:
+    # Load the Iris dataset from sklearn
+    iris = load_iris()
+    df = pd.DataFrame(iris.data, columns=iris.feature_names)
+    df['species'] = pd.Categorical.from_codes(iris.target, iris.target_names)
+
+    # Display basic info
+    print("Dataset Loaded Successfully!\n")
+    print(df.head())
+    print("\nDataset Info:")
+    print(df.info())
+
+    # Scatter plot: Sepal Length vs Petal Length
+    plt.figure(figsize=(10, 6))
+    sns.scatterplot(data=df,
+                    x='sepal length (cm)',
+                    y='petal length (cm)',
+                    hue='species',
+                    style='species',
+                    palette='Set2')
+
+    plt.title('Sepal Length vs Petal Length by Species')
+    plt.xlabel('Sepal Length (cm)')
+    plt.ylabel('Petal Length (cm)')
+    plt.legend(title='Species')
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+except FileNotFoundError:
+    print("Error: Dataset file not found.")
+except pd.errors.EmptyDataError:
+    print("Error: File is empty.")
+except Exception as e:
+    print(f"An error occurred: {e}")
